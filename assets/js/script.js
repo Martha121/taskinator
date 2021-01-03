@@ -246,43 +246,18 @@ var taskFormHandler = function(event) {
     localStorage.setItem("tasks", JSON.stringify(tasks));
   }
   var loadTasks = function(){
-    //Gets task items from localStorage
-    var strFromFile = localStorage.getItem ("tasks");
-    var listItemEl;
-    var taskInfoEl;
-    var taskActionsEl;
-
-    if(strFromFile == null){
-      tasks = [];
-      return false;
+    var savedTasks = localStorage.getItem("tasks");
+    if (!savedTasks) {
+    return false;
     }
     //Converts tasks from the string format back into an array of objects.
-    tasks = JSON.parse(strFromFile);
-    for(var i=0; i<tasks.length; i++ ){
-     
-      taskIdCounter = tasks[i].id;
-      listItemEl = document.createElement("li");
-      listItemEl.className = "task-item";
-      listItemEl.setAttribute("data-task-id", tasks[i].id);
-      listItemEl.setAttribute("draggable",true);
-
-      taskInfoEl = document.createElement("div");
-      taskInfoEl.className = "task-info";
-      taskInfoEl.innerHTML = "<h3 class='task-name'>" + tasks[i].name + "</h3><span class='task-type'>" + tasks[i].type + "</span>";
-      listItemEl.appendChild(taskInfoEl);
-      taskActionsEl = createTaskActions(tasks[i].id);
-      listItemEl.appendChild(taskActionsEl);
-      if (tasks[i].status == "to do"){
-        listItemEl.querySelector("select[name='status-change']").selectedIndex = 1;
-        tasksCompletedEl.appendChild(listItemEl);
-        taskIdCounter++;
-        console.log(listItemEl);
-      }
-
-    }
-
-    //Iterates through a tasks array and creates task elements on the page from it.
+    savedTasks = JSON.parse(savedTasks);
+    // loop through savedTasks array
+    for (var i = 0; i < savedTasks.length; i++) {
+    // pass each task object into the `createTaskEl()` function
+    createTaskEl(savedTasks[i]);
   }
+}
 pageContentEl.addEventListener("click", taskButtonHandler);
 formEl.addEventListener("submit",taskFormHandler);
 pageContentEl.addEventListener("change", taskStatusChangeHandler);
@@ -291,4 +266,3 @@ pageContentEl.addEventListener("dragover", dropZoneDragHandler);
 pageContentEl.addEventListener("drop", dropTaskHandler);
 pageContentEl.addEventListener("dragleave", dragLeaveHandler);
 loadTasks ();
-
