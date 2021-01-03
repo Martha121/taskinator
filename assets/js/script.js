@@ -31,15 +31,8 @@ var taskFormHandler = function(event) {
       };
 
   createTaskEl(taskDataObj);
-}
-    // package up data as an object
-    var taskDataObj = { 
-      name: taskNameInput,
-      type: taskTypeInput
-    };
-
-    
-  };
+  }
+ };
 
   var createTaskEl = function(taskDataObj) {
     // create list item
@@ -253,6 +246,7 @@ var taskFormHandler = function(event) {
   var saveTasks = function() {
     localStorage.setItem("tasks", JSON.stringify(tasks));
   }
+  
 pageContentEl.addEventListener("click", taskButtonHandler);
 formEl.addEventListener("submit",taskFormHandler);
 pageContentEl.addEventListener("change", taskStatusChangeHandler);
